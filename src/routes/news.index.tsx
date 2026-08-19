@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/format";
 import { useNews } from "@/lib/queries";
 
-export const Route = createFileRoute("/news")({
+export const Route = createFileRoute("/news/")({
   head: () => ({
     meta: [
       { title: "News & Updates — Bhumiraj Computer Institute" },
