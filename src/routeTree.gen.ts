@@ -10,16 +10,20 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdmissionRouteImport } from './routes/admission'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as LeaderboardRouteImport } from './routes/leaderboard'
 import { Route as NoticesRouteImport } from './routes/notices'
 import { Route as PassedStudentsRouteImport } from './routes/passed-students'
 import { Route as TeachersRouteImport } from './routes/teachers'
+import { Route as TypingRouteImport } from './routes/typing'
 import { Route as VideosRouteImport } from './routes/videos'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
 import { Route as CoursesSlugRouteImport } from './routes/courses.$slug'
 import { Route as NewsIndexRouteImport } from './routes/news.index'
@@ -28,6 +32,10 @@ import { Route as NewsSlugRouteImport } from './routes/news.$slug'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -60,6 +68,11 @@ const GalleryRoute = GalleryRouteImport.update({
   path: '/gallery',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LeaderboardRoute = LeaderboardRouteImport.update({
+  id: '/leaderboard',
+  path: '/leaderboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NoticesRoute = NoticesRouteImport.update({
   id: '/notices',
   path: '/notices',
@@ -75,10 +88,20 @@ const TeachersRoute = TeachersRouteImport.update({
   path: '/teachers',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TypingRoute = TypingRouteImport.update({
+  id: '/typing',
+  path: '/typing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VideosRoute = VideosRouteImport.update({
   id: '/videos',
   path: '/videos',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const CoursesIndexRoute = CoursesIndexRouteImport.update({
   id: '/courses/',
@@ -109,10 +132,13 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/events': typeof EventsRoute
   '/gallery': typeof GalleryRoute
+  '/leaderboard': typeof LeaderboardRoute
   '/notices': typeof NoticesRoute
   '/passed-students': typeof PassedStudentsRoute
   '/teachers': typeof TeachersRoute
+  '/typing': typeof TypingRoute
   '/videos': typeof VideosRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/news/$slug': typeof NewsSlugRoute
   '/courses/': typeof CoursesIndexRoute
@@ -126,10 +152,13 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/events': typeof EventsRoute
   '/gallery': typeof GalleryRoute
+  '/leaderboard': typeof LeaderboardRoute
   '/notices': typeof NoticesRoute
   '/passed-students': typeof PassedStudentsRoute
   '/teachers': typeof TeachersRoute
+  '/typing': typeof TypingRoute
   '/videos': typeof VideosRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/news/$slug': typeof NewsSlugRoute
   '/courses': typeof CoursesIndexRoute
@@ -138,16 +167,20 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/admission': typeof AdmissionRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/events': typeof EventsRoute
   '/gallery': typeof GalleryRoute
+  '/leaderboard': typeof LeaderboardRoute
   '/notices': typeof NoticesRoute
   '/passed-students': typeof PassedStudentsRoute
   '/teachers': typeof TeachersRoute
+  '/typing': typeof TypingRoute
   '/videos': typeof VideosRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/news/$slug': typeof NewsSlugRoute
   '/courses/': typeof CoursesIndexRoute
@@ -163,10 +196,13 @@ export interface FileRouteTypes {
     | '/contact'
     | '/events'
     | '/gallery'
+    | '/leaderboard'
     | '/notices'
     | '/passed-students'
     | '/teachers'
+    | '/typing'
     | '/videos'
+    | '/dashboard'
     | '/courses/$slug'
     | '/news/$slug'
     | '/courses/'
@@ -180,10 +216,13 @@ export interface FileRouteTypes {
     | '/contact'
     | '/events'
     | '/gallery'
+    | '/leaderboard'
     | '/notices'
     | '/passed-students'
     | '/teachers'
+    | '/typing'
     | '/videos'
+    | '/dashboard'
     | '/courses/$slug'
     | '/news/$slug'
     | '/courses'
@@ -191,16 +230,20 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/about'
     | '/admission'
     | '/auth'
     | '/contact'
     | '/events'
     | '/gallery'
+    | '/leaderboard'
     | '/notices'
     | '/passed-students'
     | '/teachers'
+    | '/typing'
     | '/videos'
+    | '/_authenticated/dashboard'
     | '/courses/$slug'
     | '/news/$slug'
     | '/courses/'
@@ -209,15 +252,18 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   AdmissionRoute: typeof AdmissionRoute
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   EventsRoute: typeof EventsRoute
   GalleryRoute: typeof GalleryRoute
+  LeaderboardRoute: typeof LeaderboardRoute
   NoticesRoute: typeof NoticesRoute
   PassedStudentsRoute: typeof PassedStudentsRoute
   TeachersRoute: typeof TeachersRoute
+  TypingRoute: typeof TypingRoute
   VideosRoute: typeof VideosRoute
   CoursesSlugRoute: typeof CoursesSlugRoute
   NewsSlugRoute: typeof NewsSlugRoute
@@ -232,6 +278,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -276,6 +329,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/leaderboard': {
+      id: '/leaderboard'
+      path: '/leaderboard'
+      fullPath: '/leaderboard'
+      preLoaderRoute: typeof LeaderboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/notices': {
       id: '/notices'
       path: '/notices'
@@ -297,12 +357,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeachersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/typing': {
+      id: '/typing'
+      path: '/typing'
+      fullPath: '/typing'
+      preLoaderRoute: typeof TypingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/videos': {
       id: '/videos'
       path: '/videos'
       fullPath: '/videos'
       preLoaderRoute: typeof VideosRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/courses/': {
       id: '/courses/'
@@ -335,17 +409,31 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AdmissionRoute: AdmissionRoute,
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   EventsRoute: EventsRoute,
   GalleryRoute: GalleryRoute,
+  LeaderboardRoute: LeaderboardRoute,
   NoticesRoute: NoticesRoute,
   PassedStudentsRoute: PassedStudentsRoute,
   TeachersRoute: TeachersRoute,
+  TypingRoute: TypingRoute,
   VideosRoute: VideosRoute,
   CoursesSlugRoute: CoursesSlugRoute,
   NewsSlugRoute: NewsSlugRoute,
