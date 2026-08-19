@@ -23,6 +23,7 @@ import { Route as PassedStudentsRouteImport } from './routes/passed-students'
 import { Route as TeachersRouteImport } from './routes/teachers'
 import { Route as TypingRouteImport } from './routes/typing'
 import { Route as VideosRouteImport } from './routes/videos'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
 import { Route as CoursesSlugRouteImport } from './routes/courses.$slug'
@@ -98,6 +99,11 @@ const VideosRoute = VideosRouteImport.update({
   path: '/videos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -109,9 +115,9 @@ const CoursesIndexRoute = CoursesIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const CoursesSlugRoute = CoursesSlugRouteImport.update({
-  id: '/courses/$slug',
-  path: '/courses/$slug',
-  getParentRoute: () => rootRouteImport,
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => CoursesRoute,
 } as any)
 const NewsIndexRoute = NewsIndexRouteImport.update({
   id: '/news/',
@@ -119,9 +125,9 @@ const NewsIndexRoute = NewsIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const NewsSlugRoute = NewsSlugRouteImport.update({
-  id: '/news/$slug',
-  path: '/news/$slug',
-  getParentRoute: () => rootRouteImport,
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => NewsRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -138,6 +144,7 @@ export interface FileRoutesByFullPath {
   '/teachers': typeof TeachersRoute
   '/typing': typeof TypingRoute
   '/videos': typeof VideosRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/news/$slug': typeof NewsSlugRoute
@@ -158,6 +165,7 @@ export interface FileRoutesByTo {
   '/teachers': typeof TeachersRoute
   '/typing': typeof TypingRoute
   '/videos': typeof VideosRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/news/$slug': typeof NewsSlugRoute
@@ -180,6 +188,7 @@ export interface FileRoutesById {
   '/teachers': typeof TeachersRoute
   '/typing': typeof TypingRoute
   '/videos': typeof VideosRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/news/$slug': typeof NewsSlugRoute
@@ -202,6 +211,7 @@ export interface FileRouteTypes {
     | '/teachers'
     | '/typing'
     | '/videos'
+    | '/admin'
     | '/dashboard'
     | '/courses/$slug'
     | '/news/$slug'
@@ -222,6 +232,7 @@ export interface FileRouteTypes {
     | '/teachers'
     | '/typing'
     | '/videos'
+    | '/admin'
     | '/dashboard'
     | '/courses/$slug'
     | '/news/$slug'
@@ -243,6 +254,7 @@ export interface FileRouteTypes {
     | '/teachers'
     | '/typing'
     | '/videos'
+    | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/courses/$slug'
     | '/news/$slug'
@@ -265,8 +277,6 @@ export interface RootRouteChildren {
   TeachersRoute: typeof TeachersRoute
   TypingRoute: typeof TypingRoute
   VideosRoute: typeof VideosRoute
-  CoursesSlugRoute: typeof CoursesSlugRoute
-  NewsSlugRoute: typeof NewsSlugRoute
   CoursesIndexRoute: typeof CoursesIndexRoute
   NewsIndexRoute: typeof NewsIndexRoute
 }
@@ -371,6 +381,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VideosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -387,10 +404,10 @@ declare module '@tanstack/react-router' {
     }
     '/courses/$slug': {
       id: '/courses/$slug'
-      path: '/courses/$slug'
+      path: '/$slug'
       fullPath: '/courses/$slug'
       preLoaderRoute: typeof CoursesSlugRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof CoursesRoute
     }
     '/news/': {
       id: '/news/'
@@ -401,19 +418,21 @@ declare module '@tanstack/react-router' {
     }
     '/news/$slug': {
       id: '/news/$slug'
-      path: '/news/$slug'
+      path: '/$slug'
       fullPath: '/news/$slug'
       preLoaderRoute: typeof NewsSlugRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof NewsRoute
     }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
 }
 
@@ -435,8 +454,6 @@ const rootRouteChildren: RootRouteChildren = {
   TeachersRoute: TeachersRoute,
   TypingRoute: TypingRoute,
   VideosRoute: VideosRoute,
-  CoursesSlugRoute: CoursesSlugRoute,
-  NewsSlugRoute: NewsSlugRoute,
   CoursesIndexRoute: CoursesIndexRoute,
   NewsIndexRoute: NewsIndexRoute,
 }
