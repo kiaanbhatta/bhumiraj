@@ -81,6 +81,8 @@ function toPayload(fields: FieldDef[], values: Row): Row {
       out[f.name] = String(v ?? "") || null;
     } else if (f.type === "date" || f.type === "datetime") {
       out[f.name] = v ? new Date(String(v)).toISOString() : null;
+    } else if (f.name.endsWith("_id")) {
+      out[f.name] = String(v ?? "") || null;
     } else {
       out[f.name] = String(v ?? "");
     }
