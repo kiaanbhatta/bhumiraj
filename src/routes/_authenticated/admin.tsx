@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
+import { ResourceManager, type ResourceConfig } from "@/components/admin/ResourceManager";
 import { EmptyState, ListSkeleton } from "@/components/common/States";
 import { PageHero, PublicLayout } from "@/components/layout/PublicLayout";
 import { Badge } from "@/components/ui/badge";
@@ -15,8 +15,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
-import { formatDate, formatFee, slugify } from "@/lib/format";
-import { useCourses, useNotices, useSiteSettings } from "@/lib/queries";
+import { formatDate, slugify } from "@/lib/format";
+import { useGalleryCategories, useSiteSettings } from "@/lib/queries";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -71,7 +71,17 @@ function AdminPage() {
             <TabsTrigger value="admissions">Admissions</TabsTrigger>
             <TabsTrigger value="messages">Messages</TabsTrigger>
             <TabsTrigger value="courses">Courses</TabsTrigger>
+            <TabsTrigger value="gallery">Gallery</TabsTrigger>
+            <TabsTrigger value="categories">Categories</TabsTrigger>
+            <TabsTrigger value="videos">Videos</TabsTrigger>
+            <TabsTrigger value="news">News</TabsTrigger>
             <TabsTrigger value="notices">Notices</TabsTrigger>
+            <TabsTrigger value="events">Events</TabsTrigger>
+            <TabsTrigger value="teachers">Teachers</TabsTrigger>
+            <TabsTrigger value="students">Passed students</TabsTrigger>
+            <TabsTrigger value="testimonials">Testimonials</TabsTrigger>
+            <TabsTrigger value="facilities">Facilities</TabsTrigger>
+            <TabsTrigger value="typing">Typing texts</TabsTrigger>
             <TabsTrigger value="settings">Site settings</TabsTrigger>
           </TabsList>
 
@@ -82,10 +92,40 @@ function AdminPage() {
             <MessagesTab />
           </TabsContent>
           <TabsContent value="courses" className="pt-6">
-            <CoursesTab />
+            <ResourceManager config={coursesConfig} />
+          </TabsContent>
+          <TabsContent value="gallery" className="pt-6">
+            <GalleryTab />
+          </TabsContent>
+          <TabsContent value="categories" className="pt-6">
+            <ResourceManager config={galleryCategoryConfig} />
+          </TabsContent>
+          <TabsContent value="videos" className="pt-6">
+            <ResourceManager config={videosConfig} />
+          </TabsContent>
+          <TabsContent value="news" className="pt-6">
+            <ResourceManager config={newsConfig} />
           </TabsContent>
           <TabsContent value="notices" className="pt-6">
-            <NoticesTab />
+            <ResourceManager config={noticesConfig} />
+          </TabsContent>
+          <TabsContent value="events" className="pt-6">
+            <ResourceManager config={eventsConfig} />
+          </TabsContent>
+          <TabsContent value="teachers" className="pt-6">
+            <ResourceManager config={teachersConfig} />
+          </TabsContent>
+          <TabsContent value="students" className="pt-6">
+            <ResourceManager config={passedStudentsConfig} />
+          </TabsContent>
+          <TabsContent value="testimonials" className="pt-6">
+            <ResourceManager config={testimonialsConfig} />
+          </TabsContent>
+          <TabsContent value="facilities" className="pt-6">
+            <ResourceManager config={facilitiesConfig} />
+          </TabsContent>
+          <TabsContent value="typing" className="pt-6">
+            <ResourceManager config={typingTextsConfig} />
           </TabsContent>
           <TabsContent value="settings" className="pt-6">
             <SettingsTab />
@@ -218,229 +258,261 @@ function MessagesTab() {
   );
 }
 
-function CoursesTab() {
-  const queryClient = useQueryClient();
-  const { data: courses, isLoading } = useCourses({ activeOnly: false });
-  const [saving, setSaving] = useState(false);
 
-  const remove = useMutation({
-    mutationFn: async (id: string) => {
-      const { error } = await supabase.from("courses").delete().eq("id", id);
-      if (error) throw new Error(error.message);
+const coursesConfig: ResourceConfig = {
+  table: "courses",
+  title: "course",
+  queryKey: "courses",
+  orderBy: { column: "sort_order", ascending: true },
+  titleKey: "name",
+  imageKey: "image_url",
+  folder: "courses",
+  subtitle: (row) => `${String(row["category"] ?? "")} · ${String(row["duration"] ?? "")}`,
+  derive: (values) => ({ slug: slugify(String(values["name"] ?? "")) }),
+  fields: [
+    { name: "name", label: "Name", required: true },
+    { name: "image_url", label: "Course image", type: "image" },
+    { name: "short_description", label: "Short description" },
+    { name: "description", label: "Full description", type: "textarea", rows: 5 },
+    { name: "duration", label: "Duration", placeholder: "3 months" },
+    { name: "fee", label: "Fee", type: "number" },
+    { name: "category", label: "Category", defaultValue: "General" },
+    { name: "syllabus", label: "Syllabus (one per line)", type: "list" },
+    { name: "requirements", label: "Requirements (one per line)", type: "list" },
+    { name: "sort_order", label: "Sort order", type: "number" },
+    { name: "is_featured", label: "Featured", type: "boolean" },
+    { name: "is_active", label: "Active", type: "boolean", defaultValue: true },
+  ],
+};
+
+const galleryCategoryConfig: ResourceConfig = {
+  table: "gallery_categories",
+  title: "category",
+  queryKey: "gallery_categories",
+  orderBy: { column: "sort_order", ascending: true },
+  titleKey: "name",
+  fields: [
+    { name: "name", label: "Name", required: true },
+    { name: "sort_order", label: "Sort order", type: "number" },
+  ],
+};
+
+const videosConfig: ResourceConfig = {
+  table: "videos",
+  title: "video",
+  queryKey: "videos",
+  orderBy: { column: "sort_order", ascending: true },
+  titleKey: "title",
+  imageKey: "thumbnail_url",
+  folder: "videos",
+  fields: [
+    { name: "title", label: "Title", required: true },
+    { name: "video_url", label: "Video URL (YouTube/embed)", required: true },
+    { name: "thumbnail_url", label: "Thumbnail", type: "image" },
+    { name: "description", label: "Description", type: "textarea" },
+    { name: "sort_order", label: "Sort order", type: "number" },
+    { name: "is_active", label: "Active", type: "boolean", defaultValue: true },
+  ],
+};
+
+const newsConfig: ResourceConfig = {
+  table: "news",
+  title: "news article",
+  queryKey: "news",
+  orderBy: { column: "published_at", ascending: false },
+  titleKey: "title",
+  imageKey: "cover_image_url",
+  folder: "news",
+  subtitle: (row) => String(row["category"] ?? ""),
+  derive: (values) => ({ slug: slugify(String(values["title"] ?? "")) }),
+  fields: [
+    { name: "title", label: "Title", required: true },
+    { name: "cover_image_url", label: "Cover image", type: "image" },
+    { name: "excerpt", label: "Excerpt", type: "textarea", rows: 2 },
+    { name: "content", label: "Content", type: "textarea", rows: 8 },
+    { name: "category", label: "Category", defaultValue: "News" },
+    { name: "author", label: "Author", defaultValue: "Bhumiraj Computer Institute" },
+    { name: "is_featured", label: "Featured", type: "boolean" },
+    { name: "is_published", label: "Published", type: "boolean", defaultValue: true },
+  ],
+};
+
+const noticesConfig: ResourceConfig = {
+  table: "notices",
+  title: "notice",
+  queryKey: "notices",
+  orderBy: { column: "notice_date", ascending: false },
+  titleKey: "title",
+  subtitle: (row) => String(row["notice_date"] ?? ""),
+  fields: [
+    { name: "title", label: "Title", required: true },
+    { name: "content", label: "Content", type: "textarea", rows: 5 },
+    { name: "notice_date", label: "Notice date", type: "date" },
+    { name: "is_important", label: "Important", type: "boolean" },
+    { name: "is_published", label: "Published", type: "boolean", defaultValue: true },
+  ],
+};
+
+const eventsConfig: ResourceConfig = {
+  table: "events",
+  title: "event",
+  queryKey: "events",
+  orderBy: { column: "event_date", ascending: false },
+  titleKey: "title",
+  imageKey: "image_url",
+  folder: "events",
+  subtitle: (row) => String(row["location"] ?? ""),
+  fields: [
+    { name: "title", label: "Title", required: true },
+    { name: "image_url", label: "Image", type: "image" },
+    { name: "description", label: "Description", type: "textarea" },
+    { name: "location", label: "Location" },
+    { name: "event_date", label: "Event date", type: "datetime" },
+    { name: "is_published", label: "Published", type: "boolean", defaultValue: true },
+  ],
+};
+
+const teachersConfig: ResourceConfig = {
+  table: "teachers",
+  title: "teacher",
+  queryKey: "teachers",
+  orderBy: { column: "sort_order", ascending: true },
+  titleKey: "name",
+  imageKey: "photo_url",
+  folder: "teachers",
+  subtitle: (row) => String(row["position"] ?? ""),
+  fields: [
+    { name: "name", label: "Name", required: true },
+    { name: "photo_url", label: "Photo", type: "image" },
+    { name: "position", label: "Position" },
+    { name: "qualification", label: "Qualification" },
+    { name: "experience", label: "Experience" },
+    { name: "bio", label: "Bio", type: "textarea" },
+    { name: "facebook_url", label: "Facebook URL" },
+    { name: "linkedin_url", label: "LinkedIn URL" },
+    { name: "sort_order", label: "Sort order", type: "number" },
+    { name: "is_active", label: "Active", type: "boolean", defaultValue: true },
+  ],
+};
+
+const passedStudentsConfig: ResourceConfig = {
+  table: "passed_students",
+  title: "passed student",
+  queryKey: "passed_students",
+  titleKey: "name",
+  imageKey: "photo_url",
+  folder: "students",
+  subtitle: (row) => `${String(row["course"] ?? "")} · ${String(row["completion_year"] ?? "")}`,
+  fields: [
+    { name: "name", label: "Name", required: true },
+    { name: "photo_url", label: "Photo", type: "image" },
+    { name: "course", label: "Course" },
+    { name: "completion_year", label: "Completion year", type: "number" },
+    { name: "grade", label: "Grade" },
+    { name: "achievement", label: "Achievement" },
+    { name: "testimonial", label: "Testimonial", type: "textarea" },
+    { name: "is_featured", label: "Featured", type: "boolean" },
+    { name: "is_active", label: "Active", type: "boolean", defaultValue: true },
+  ],
+};
+
+const testimonialsConfig: ResourceConfig = {
+  table: "testimonials",
+  title: "testimonial",
+  queryKey: "testimonials",
+  titleKey: "name",
+  imageKey: "photo_url",
+  folder: "testimonials",
+  subtitle: (row) => String(row["course"] ?? ""),
+  fields: [
+    { name: "name", label: "Name", required: true },
+    { name: "photo_url", label: "Photo", type: "image" },
+    { name: "course", label: "Course" },
+    { name: "message", label: "Message", type: "textarea" },
+    { name: "rating", label: "Rating (1-5)", type: "number", defaultValue: 5 },
+    { name: "is_featured", label: "Featured", type: "boolean" },
+    { name: "is_active", label: "Active", type: "boolean", defaultValue: true },
+  ],
+};
+
+const facilitiesConfig: ResourceConfig = {
+  table: "facilities",
+  title: "facility",
+  queryKey: "facilities",
+  orderBy: { column: "sort_order", ascending: true },
+  titleKey: "title",
+  subtitle: (row) => String(row["icon"] ?? ""),
+  fields: [
+    { name: "title", label: "Title", required: true },
+    { name: "description", label: "Description", type: "textarea" },
+    { name: "icon", label: "Lucide icon name", defaultValue: "Sparkles" },
+    { name: "sort_order", label: "Sort order", type: "number" },
+    { name: "is_active", label: "Active", type: "boolean", defaultValue: true },
+  ],
+};
+
+const typingTextsConfig: ResourceConfig = {
+  table: "typing_texts",
+  title: "typing text",
+  queryKey: "typing_texts",
+  titleKey: "title",
+  subtitle: (row) => `${String(row["language"] ?? "")} · ${String(row["difficulty"] ?? "")}`,
+  fields: [
+    { name: "title", label: "Title", required: true },
+    {
+      name: "language",
+      label: "Language",
+      type: "select",
+      defaultValue: "english",
+      options: [
+        { value: "english", label: "English" },
+        { value: "nepali", label: "Nepali" },
+      ],
     },
-    onSuccess: () => {
-      toast.success("Course deleted");
-      void queryClient.invalidateQueries({ queryKey: ["courses"] });
+    {
+      name: "difficulty",
+      label: "Difficulty",
+      type: "select",
+      defaultValue: "beginner",
+      options: [
+        { value: "beginner", label: "Beginner" },
+        { value: "intermediate", label: "Intermediate" },
+        { value: "advanced", label: "Advanced" },
+      ],
     },
-    onError: (error: Error) => toast.error(error.message),
-  });
+    { name: "content", label: "Content", type: "textarea", rows: 6, required: true },
+    { name: "is_active", label: "Active", type: "boolean", defaultValue: true },
+  ],
+};
 
-  const handleCreate = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formElement = event.currentTarget;
-    const form = new FormData(formElement);
-    const name = String(form.get("name") ?? "").trim();
-    if (name.length < 2) {
-      toast.error("Course name is required");
-      return;
-    }
-
-    setSaving(true);
-    const { error } = await supabase.from("courses").insert({
-      name,
-      slug: slugify(name),
-      short_description: String(form.get("short_description") ?? "").slice(0, 200),
-      description: String(form.get("description") ?? "").slice(0, 4000),
-      duration: String(form.get("duration") ?? "").slice(0, 60),
-      fee: Number(form.get("fee") ?? 0),
-      category: String(form.get("category") ?? "General").slice(0, 60) || "General",
-      image_url: String(form.get("image_url") ?? "") || null,
-      syllabus: String(form.get("syllabus") ?? "")
-        .split("\n")
-        .map((line) => line.trim())
-        .filter(Boolean),
-    });
-    setSaving(false);
-
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
-    toast.success("Course added");
-    formElement.reset();
-    void queryClient.invalidateQueries({ queryKey: ["courses"] });
+function GalleryTab() {
+  const { data: categories } = useGalleryCategories();
+  const config: ResourceConfig = {
+    table: "gallery_images",
+    title: "photo",
+    queryKey: "gallery_images",
+    orderBy: { column: "sort_order", ascending: true },
+    titleKey: "caption",
+    imageKey: "image_url",
+    folder: "gallery",
+    fields: [
+      { name: "image_url", label: "Photo", type: "image" },
+      { name: "caption", label: "Caption" },
+      {
+        name: "category_id",
+        label: "Category",
+        type: "select",
+        options: [
+          { value: "", label: "Uncategorized" },
+          ...(categories ?? []).map((c) => ({ value: c.id, label: c.name })),
+        ],
+      },
+      { name: "sort_order", label: "Sort order", type: "number" },
+      { name: "is_featured", label: "Featured", type: "boolean" },
+      { name: "is_active", label: "Active", type: "boolean", defaultValue: true },
+    ],
   };
-
-  return (
-    <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
-      <form onSubmit={handleCreate} className="h-fit space-y-4 rounded-2xl border border-border bg-card p-5">
-        <h3 className="font-display text-base font-semibold">Add course</h3>
-        <div className="space-y-2">
-          <Label htmlFor="name">Name</Label>
-          <Input id="name" name="name" required maxLength={100} />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="short_description">Short description</Label>
-          <Input id="short_description" name="short_description" maxLength={200} />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="description">Full description</Label>
-          <Textarea id="description" name="description" rows={4} maxLength={4000} />
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          <div className="space-y-2">
-            <Label htmlFor="duration">Duration</Label>
-            <Input id="duration" name="duration" maxLength={60} placeholder="3 months" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="fee">Fee</Label>
-            <Input id="fee" name="fee" type="number" min={0} step={100} defaultValue={0} />
-          </div>
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="category">Category</Label>
-          <Input id="category" name="category" maxLength={60} placeholder="General" />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="image_url">Image URL</Label>
-          <Input id="image_url" name="image_url" maxLength={500} />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="syllabus">Syllabus (one item per line)</Label>
-          <Textarea id="syllabus" name="syllabus" rows={4} maxLength={2000} />
-        </div>
-        <Button type="submit" className="w-full" disabled={saving}>
-          {saving ? "Saving..." : "Add course"}
-        </Button>
-      </form>
-
-      <div>
-        {isLoading ? (
-          <ListSkeleton />
-        ) : (
-          <div className="space-y-3">
-            {courses?.map((course) => (
-              <div
-                key={course.id}
-                className="flex items-center justify-between gap-3 rounded-2xl border border-border bg-card p-4"
-              >
-                <div>
-                  <p className="font-medium">{course.name}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {course.category} · {course.duration || "—"} · {formatFee(course.fee)}
-                  </p>
-                </div>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  aria-label={`Delete ${course.name}`}
-                  onClick={() => remove.mutate(course.id)}
-                >
-                  <Trash2 className="size-4 text-destructive" />
-                </Button>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function NoticesTab() {
-  const queryClient = useQueryClient();
-  const { data: notices, isLoading } = useNotices();
-  const [saving, setSaving] = useState(false);
-
-  const remove = useMutation({
-    mutationFn: async (id: string) => {
-      const { error } = await supabase.from("notices").delete().eq("id", id);
-      if (error) throw new Error(error.message);
-    },
-    onSuccess: () => {
-      toast.success("Notice deleted");
-      void queryClient.invalidateQueries({ queryKey: ["notices"] });
-    },
-    onError: (error: Error) => toast.error(error.message),
-  });
-
-  const handleCreate = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formElement = event.currentTarget;
-    const form = new FormData(formElement);
-    const title = String(form.get("title") ?? "").trim();
-    if (title.length < 2) {
-      toast.error("Title is required");
-      return;
-    }
-
-    setSaving(true);
-    const { error } = await supabase.from("notices").insert({
-      title,
-      content: String(form.get("content") ?? "").slice(0, 3000),
-      is_important: form.get("is_important") === "on",
-    });
-    setSaving(false);
-
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
-    toast.success("Notice published");
-    formElement.reset();
-    void queryClient.invalidateQueries({ queryKey: ["notices"] });
-  };
-
-  return (
-    <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
-      <form onSubmit={handleCreate} className="h-fit space-y-4 rounded-2xl border border-border bg-card p-5">
-        <h3 className="font-display text-base font-semibold">Publish notice</h3>
-        <div className="space-y-2">
-          <Label htmlFor="notice-title">Title</Label>
-          <Input id="notice-title" name="title" required maxLength={150} />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="notice-content">Content</Label>
-          <Textarea id="notice-content" name="content" rows={5} maxLength={3000} />
-        </div>
-        <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" name="is_important" className="size-4 rounded border-border" />
-          Mark as important
-        </label>
-        <Button type="submit" className="w-full" disabled={saving}>
-          {saving ? "Publishing..." : "Publish notice"}
-        </Button>
-      </form>
-
-      <div>
-        {isLoading ? (
-          <ListSkeleton />
-        ) : (
-          <div className="space-y-3">
-            {notices?.map((notice) => (
-              <div
-                key={notice.id}
-                className="flex items-start justify-between gap-3 rounded-2xl border border-border bg-card p-4"
-              >
-                <div>
-                  <p className="font-medium">{notice.title}</p>
-                  <p className="text-xs text-muted-foreground">{formatDate(notice.notice_date)}</p>
-                </div>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  aria-label={`Delete ${notice.title}`}
-                  onClick={() => remove.mutate(notice.id)}
-                >
-                  <Trash2 className="size-4 text-destructive" />
-                </Button>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  );
+  return <ResourceManager config={config} />;
 }
 
 const SETTING_FIELDS = [
