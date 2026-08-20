@@ -106,7 +106,7 @@ export function ResourceManager({ config }: { config: ResourceConfig }) {
         .select("*")
         .order(order.column, { ascending: order.ascending ?? true });
       if (error) throw new Error(error.message);
-      return (data ?? []) as Row[];
+      return ((data ?? []) as unknown) as Row[];
     },
   });
 
@@ -272,7 +272,7 @@ export function ResourceManager({ config }: { config: ResourceConfig }) {
         ) : (
           <div className="space-y-3">
             {data?.map((row) => {
-              const id = String(row.id);
+              const id = String(row['id']);
               const label = String(row[config.titleKey] ?? "Untitled");
               return (
                 <div
