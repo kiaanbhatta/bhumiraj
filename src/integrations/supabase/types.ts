@@ -495,6 +495,78 @@ export type Database = {
         }
         Relationships: []
       }
+      payment_methods: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          sort_order: number
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          sort_order?: number
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          category: string
+          created_at: string
+          description: string
+          id: string
+          is_active: boolean
+          low_stock_threshold: number
+          name: string
+          purchase_price: number
+          selling_price: number
+          sku: string
+          stock_quantity: number
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          is_active?: boolean
+          low_stock_threshold?: number
+          name: string
+          purchase_price?: number
+          selling_price?: number
+          sku: string
+          stock_quantity?: number
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          is_active?: boolean
+          low_stock_threshold?: number
+          name?: string
+          purchase_price?: number
+          selling_price?: number
+          sku?: string
+          stock_quantity?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -537,6 +609,210 @@ export type Database = {
         }
         Relationships: []
       }
+      sale_items: {
+        Row: {
+          created_at: string
+          id: string
+          line_total: number
+          product_id: string | null
+          product_name: string
+          quantity: number
+          returned_quantity: number
+          sale_id: string
+          sku: string
+          unit_price: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          line_total: number
+          product_id?: string | null
+          product_name: string
+          quantity: number
+          returned_quantity?: number
+          sale_id: string
+          sku?: string
+          unit_price: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          line_total?: number
+          product_id?: string | null
+          product_name?: string
+          quantity?: number
+          returned_quantity?: number
+          sale_id?: string
+          sku?: string
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sale_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sale_items_sale_id_fkey"
+            columns: ["sale_id"]
+            isOneToOne: false
+            referencedRelation: "sales"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sale_return_items: {
+        Row: {
+          created_at: string
+          id: string
+          line_total: number
+          product_id: string | null
+          product_name: string
+          quantity: number
+          return_id: string
+          sale_item_id: string
+          unit_price: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          line_total: number
+          product_id?: string | null
+          product_name?: string
+          quantity: number
+          return_id: string
+          sale_item_id: string
+          unit_price: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          line_total?: number
+          product_id?: string | null
+          product_name?: string
+          quantity?: number
+          return_id?: string
+          sale_item_id?: string
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sale_return_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sale_return_items_return_id_fkey"
+            columns: ["return_id"]
+            isOneToOne: false
+            referencedRelation: "sale_returns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sale_return_items_sale_item_id_fkey"
+            columns: ["sale_item_id"]
+            isOneToOne: false
+            referencedRelation: "sale_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sale_returns: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          reason: string
+          return_no: string
+          sale_id: string
+          total_refund: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          reason?: string
+          return_no: string
+          sale_id: string
+          total_refund?: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          reason?: string
+          return_no?: string
+          sale_id?: string
+          total_refund?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sale_returns_sale_id_fkey"
+            columns: ["sale_id"]
+            isOneToOne: false
+            referencedRelation: "sales"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sales: {
+        Row: {
+          client_token: string | null
+          created_at: string
+          created_by: string | null
+          customer_name: string
+          discount: number
+          id: string
+          invoice_no: string
+          note: string
+          payment_method: string
+          refunded_total: number
+          sale_date: string
+          status: Database["public"]["Enums"]["sale_status"]
+          subtotal: number
+          total: number
+          updated_at: string
+        }
+        Insert: {
+          client_token?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_name?: string
+          discount?: number
+          id?: string
+          invoice_no: string
+          note?: string
+          payment_method?: string
+          refunded_total?: number
+          sale_date?: string
+          status?: Database["public"]["Enums"]["sale_status"]
+          subtotal?: number
+          total?: number
+          updated_at?: string
+        }
+        Update: {
+          client_token?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_name?: string
+          discount?: number
+          id?: string
+          invoice_no?: string
+          note?: string
+          payment_method?: string
+          refunded_total?: number
+          sale_date?: string
+          status?: Database["public"]["Enums"]["sale_status"]
+          subtotal?: number
+          total?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       site_settings: {
         Row: {
           key: string
@@ -554,6 +830,56 @@ export type Database = {
           value?: string
         }
         Relationships: []
+      }
+      stock_movements: {
+        Row: {
+          balance_after: number
+          created_at: string
+          created_by: string | null
+          id: string
+          movement_type: Database["public"]["Enums"]["stock_movement_type"]
+          product_id: string | null
+          product_name: string
+          quantity: number
+          reason: string
+          reference_id: string | null
+          reference_type: string
+        }
+        Insert: {
+          balance_after: number
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          movement_type: Database["public"]["Enums"]["stock_movement_type"]
+          product_id?: string | null
+          product_name?: string
+          quantity: number
+          reason?: string
+          reference_id?: string | null
+          reference_type?: string
+        }
+        Update: {
+          balance_after?: number
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          movement_type?: Database["public"]["Enums"]["stock_movement_type"]
+          product_id?: string | null
+          product_name?: string
+          quantity?: number
+          reason?: string
+          reference_id?: string | null
+          reference_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stock_movements_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       teachers: {
         Row: {
@@ -814,6 +1140,26 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      adjust_stock: {
+        Args: {
+          _movement_type: Database["public"]["Enums"]["stock_movement_type"]
+          _product_id: string
+          _quantity: number
+          _reason?: string
+        }
+        Returns: number
+      }
+      create_sale: {
+        Args: {
+          _client_token?: string
+          _customer_name?: string
+          _discount?: number
+          _items: Json
+          _note?: string
+          _payment_method?: string
+        }
+        Returns: string
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -822,9 +1168,22 @@ export type Database = {
         Returns: boolean
       }
       is_admin: { Args: never; Returns: boolean }
+      process_sale_return: {
+        Args: { _items: Json; _reason?: string; _sale_id: string }
+        Returns: string
+      }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
+      sale_status: "completed" | "partially_returned" | "returned" | "void"
+      stock_movement_type:
+        | "opening"
+        | "restock"
+        | "sale"
+        | "return"
+        | "adjustment"
+        | "damage"
+        | "loss"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -953,6 +1312,16 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "user"],
+      sale_status: ["completed", "partially_returned", "returned", "void"],
+      stock_movement_type: [
+        "opening",
+        "restock",
+        "sale",
+        "return",
+        "adjustment",
+        "damage",
+        "loss",
+      ],
     },
   },
 } as const
