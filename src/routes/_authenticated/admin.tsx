@@ -3,6 +3,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 
+import { ItemsTab, NewSaleTab, ReportsTab, SalesTab, StockTab } from "@/components/admin/InventoryTabs";
 import { ResourceManager, type ResourceConfig } from "@/components/admin/ResourceManager";
 import { EmptyState, ListSkeleton } from "@/components/common/States";
 import { PageHero, PublicLayout } from "@/components/layout/PublicLayout";
@@ -82,6 +83,11 @@ function AdminPage() {
             <TabsTrigger value="testimonials">Testimonials</TabsTrigger>
             <TabsTrigger value="facilities">Facilities</TabsTrigger>
             <TabsTrigger value="typing">Typing texts</TabsTrigger>
+            <TabsTrigger value="items">Items</TabsTrigger>
+            <TabsTrigger value="stock">Stock</TabsTrigger>
+            <TabsTrigger value="new-sale">New sale</TabsTrigger>
+            <TabsTrigger value="sales">Sales</TabsTrigger>
+            <TabsTrigger value="reports">Reports</TabsTrigger>
             <TabsTrigger value="settings">Site settings</TabsTrigger>
           </TabsList>
 
@@ -126,6 +132,21 @@ function AdminPage() {
           </TabsContent>
           <TabsContent value="typing" className="pt-6">
             <ResourceManager config={typingTextsConfig} />
+          </TabsContent>
+          <TabsContent value="items" className="pt-6">
+            <ItemsTab />
+          </TabsContent>
+          <TabsContent value="stock" className="pt-6">
+            <StockTab />
+          </TabsContent>
+          <TabsContent value="new-sale" className="pt-6">
+            <NewSaleTab />
+          </TabsContent>
+          <TabsContent value="sales" className="pt-6">
+            <SalesTab />
+          </TabsContent>
+          <TabsContent value="reports" className="pt-6">
+            <ReportsTab />
           </TabsContent>
           <TabsContent value="settings" className="pt-6">
             <SettingsTab />
