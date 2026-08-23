@@ -196,35 +196,36 @@ export function FacilitiesSection() {
 export function TypingPromoSection() {
   return (
     <section className="container-page py-6">
-      <div className="relative overflow-hidden rounded-3xl bg-primary-gradient p-8 text-primary-foreground sm:p-12">
+      <div className="relative overflow-hidden rounded-2xl bg-primary-gradient p-6 text-primary-foreground sm:rounded-3xl sm:p-10 lg:p-12">
         <div className="absolute inset-0 grid-noise opacity-30" aria-hidden />
         <div className="relative flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
-          <div className="max-w-xl">
-            <span className="inline-flex items-center gap-2 rounded-full bg-primary-foreground/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider">
-              <Keyboard className="size-3.5" /> Free typing game
+          <div className="min-w-0 max-w-xl">
+            <span className="inline-flex items-center gap-2 rounded-full bg-primary-foreground/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider sm:text-xs">
+              <Keyboard className="size-3.5 shrink-0" /> Free typing game
             </span>
-            <h2 className="mt-4 text-2xl font-bold sm:text-3xl">
+            <h2 className="mt-4 text-xl font-bold sm:text-2xl lg:text-3xl">
               Test your speed in English &amp; Nepali — earn XP, levels and badges
             </h2>
             <p className="mt-3 text-sm text-primary-foreground/80">
               Real-time WPM and accuracy, difficulty levels, streaks and a public leaderboard.
             </p>
           </div>
-          <div className="flex flex-wrap gap-3">
-            <Button asChild size="lg" variant="secondary" className="rounded-full">
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
+            <Button asChild size="lg" variant="secondary" className="w-full rounded-full sm:w-auto">
               <Link to="/typing">Start typing test</Link>
             </Button>
             <Button
               asChild
               size="lg"
               variant="outline"
-              className="rounded-full border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+              className="w-full rounded-full border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground sm:w-auto"
             >
               <Link to="/leaderboard">Leaderboard</Link>
             </Button>
           </div>
         </div>
       </div>
+
     </section>
   );
 }
