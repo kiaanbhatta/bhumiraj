@@ -161,7 +161,7 @@ export function FacilitiesSection() {
   const { data, isLoading } = useFacilities();
 
   return (
-    <section className="container-page py-16">
+    <section className="container-page py-12 sm:py-16">
       <SectionHeading
         eyebrow="Why choose us"
         title="Everything you need to learn comfortably"
@@ -235,7 +235,7 @@ export function GalleryPreviewSection() {
   if (!isLoading && (data?.length ?? 0) === 0) return null;
 
   return (
-    <section className="container-page py-16">
+    <section className="container-page py-12 sm:py-16">
       <SectionHeading eyebrow="Gallery" title="Life at the institute" />
       {isLoading ? (
         <CardGridSkeleton count={4} className="mt-10 lg:grid-cols-4" />
@@ -267,7 +267,7 @@ export function StudentsSection() {
   if (!isLoading && (data?.length ?? 0) === 0) return null;
 
   return (
-    <section className="bg-secondary/50 py-16">
+    <section className="bg-secondary/50 py-12 sm:py-16">
       <div className="container-page">
         <SectionHeading
           eyebrow="Success stories"
@@ -321,7 +321,7 @@ export function NewsNoticesSection() {
   const { data: events } = useEvents(3);
 
   return (
-    <section className="container-page py-16">
+    <section className="container-page py-12 sm:py-16">
       <div className="grid gap-10 lg:grid-cols-[2fr_1fr]">
         <div>
           <SectionHeading align="left" eyebrow="Updates" title="Latest news" />
@@ -419,7 +419,7 @@ export function TestimonialsSection() {
   if (!isLoading && (data?.length ?? 0) === 0) return null;
 
   return (
-    <section className="bg-secondary/50 py-16">
+    <section className="bg-secondary/50 py-12 sm:py-16">
       <div className="container-page">
         <SectionHeading eyebrow="Testimonials" title="What our students say" />
         <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -463,7 +463,7 @@ export function CtaSection() {
   const { data: settings } = useSiteSettings();
 
   return (
-    <section className="container-page py-16">
+    <section className="container-page py-12 sm:py-16">
       <div className="rounded-3xl border border-border bg-card p-8 text-center shadow-soft sm:p-12">
         <h2 className="font-display text-2xl font-bold sm:text-3xl">Ready to start your course?</h2>
         <p className="mx-auto mt-3 max-w-xl text-sm text-muted-foreground">
