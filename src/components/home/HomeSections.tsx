@@ -466,22 +466,26 @@ export function CtaSection() {
 
   return (
     <section className="container-page py-12 sm:py-16">
-      <div className="rounded-3xl border border-border bg-card p-8 text-center shadow-soft sm:p-12">
-        <h2 className="font-display text-2xl font-bold sm:text-3xl">Ready to start your course?</h2>
-        <p className="mx-auto mt-3 max-w-xl text-sm text-muted-foreground">
-          Fill the online admission form and our team will contact you with the batch schedule and fee details.
-        </p>
-        <div className="mt-7 flex flex-wrap justify-center gap-3">
-          <Button asChild size="lg" className="rounded-full">
-            <Link to="/admission">Apply online</Link>
-          </Button>
-          {settings?.["phone"] ? (
-            <Button asChild size="lg" variant="outline" className="rounded-full">
-              <a href={`tel:${settings["phone"]}`}>Call {settings["phone"]}</a>
+      <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-6 text-center shadow-soft sm:rounded-3xl sm:p-12">
+        <div className="absolute inset-0 grid-noise opacity-40" aria-hidden />
+        <div className="relative">
+          <h2 className="font-display text-xl font-bold sm:text-3xl">Ready to start your course?</h2>
+          <p className="mx-auto mt-3 max-w-xl text-sm text-muted-foreground">
+            Fill the online admission form and our team will contact you with the batch schedule and fee details.
+          </p>
+          <div className="mt-6 flex flex-col justify-center gap-3 sm:mt-7 sm:flex-row sm:flex-wrap">
+            <Button asChild size="lg" className="w-full rounded-full sm:w-auto">
+              <Link to="/admission">Apply online</Link>
             </Button>
-          ) : null}
+            {settings?.["phone"] ? (
+              <Button asChild size="lg" variant="outline" className="w-full rounded-full sm:w-auto">
+                <a href={`tel:${settings["phone"]}`}>Call {settings["phone"]}</a>
+              </Button>
+            ) : null}
+          </div>
         </div>
       </div>
+
     </section>
   );
 }
