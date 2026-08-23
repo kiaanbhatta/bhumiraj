@@ -82,18 +82,21 @@ export function SiteHeader() {
           scrolled && "shadow-soft",
         )}
       >
-        <div className="container-page flex h-16 items-center justify-between gap-4">
-          <Link to="/" className="flex items-center gap-2.5">
-            <span className="grid size-10 place-items-center rounded-xl bg-primary-gradient text-primary-foreground shadow-soft">
+        <div className="container-page flex h-16 items-center justify-between gap-3">
+          <Link to="/" className="flex min-w-0 items-center gap-2.5">
+            <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-primary-gradient text-primary-foreground shadow-soft sm:size-10">
               <GraduationCap className="size-5" />
             </span>
-            <span className="leading-tight">
-              <span className="block font-display text-sm font-bold sm:text-base">{instituteName}</span>
-              <span className="hidden text-[11px] text-muted-foreground sm:block">
+            <span className="min-w-0 leading-tight">
+              <span className="block truncate font-display text-sm font-bold sm:text-base">
+                {instituteName}
+              </span>
+              <span className="hidden truncate text-[11px] text-muted-foreground sm:block">
                 {settings?.["tagline"] ?? "Practical computer training"}
               </span>
             </span>
           </Link>
+
 
           <nav className="hidden items-center gap-1 lg:flex">
             {NAV_LINKS.map((link) => (
