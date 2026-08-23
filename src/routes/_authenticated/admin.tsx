@@ -133,6 +133,21 @@ function AdminPage() {
           <TabsContent value="typing" className="pt-6">
             <ResourceManager config={typingTextsConfig} />
           </TabsContent>
+          <TabsContent value="items" className="pt-6">
+            <ItemsTab />
+          </TabsContent>
+          <TabsContent value="stock" className="pt-6">
+            <StockTab />
+          </TabsContent>
+          <TabsContent value="new-sale" className="pt-6">
+            <NewSaleTab />
+          </TabsContent>
+          <TabsContent value="sales" className="pt-6">
+            <SalesTab />
+          </TabsContent>
+          <TabsContent value="reports" className="pt-6">
+            <ReportsTab />
+          </TabsContent>
           <TabsContent value="settings" className="pt-6">
             <SettingsTab />
           </TabsContent>
