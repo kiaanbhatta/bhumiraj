@@ -83,6 +83,11 @@ function AdminPage() {
             <TabsTrigger value="testimonials">Testimonials</TabsTrigger>
             <TabsTrigger value="facilities">Facilities</TabsTrigger>
             <TabsTrigger value="typing">Typing texts</TabsTrigger>
+            <TabsTrigger value="items">Items</TabsTrigger>
+            <TabsTrigger value="stock">Stock</TabsTrigger>
+            <TabsTrigger value="new-sale">New sale</TabsTrigger>
+            <TabsTrigger value="sales">Sales</TabsTrigger>
+            <TabsTrigger value="reports">Reports</TabsTrigger>
             <TabsTrigger value="settings">Site settings</TabsTrigger>
           </TabsList>
 
