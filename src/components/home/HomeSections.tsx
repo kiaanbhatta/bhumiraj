@@ -344,16 +344,17 @@ export function NewsNoticesSection() {
                   <SmartImage
                     src={item.cover_image_url}
                     alt={item.title}
-                    className="h-32 w-full shrink-0 rounded-xl object-cover sm:w-48"
+                    className="h-40 w-full shrink-0 rounded-xl object-cover sm:h-32 sm:w-48"
                   />
-                  <div>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                       <Badge variant="secondary">{item.category}</Badge>
                       <span>{formatDate(item.published_at)}</span>
                     </div>
                     <h3 className="mt-2 font-display text-base font-semibold">{item.title}</h3>
                     <p className="mt-1.5 line-clamp-2 text-sm text-muted-foreground">{item.excerpt}</p>
                   </div>
+
                 </Link>
               ))}
             </div>
