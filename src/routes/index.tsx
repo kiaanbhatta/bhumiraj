@@ -41,7 +41,7 @@ function PopularCourses() {
   const { data, isLoading } = useCourses({ featuredOnly: true });
 
   return (
-    <section className="container-page py-16">
+    <section className="container-page py-12 sm:py-16">
       <SectionHeading
         eyebrow="Courses"
         title="Popular training programs"
