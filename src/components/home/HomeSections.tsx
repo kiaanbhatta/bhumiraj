@@ -128,14 +128,15 @@ export function StatsSection() {
 
 export function CourseCard({ course }: { course: Course }) {
   return (
-    <Card className="group overflow-hidden p-0 transition-shadow hover:shadow-soft">
+    <Card className="group card-hover overflow-hidden p-0">
       <SmartImage
         src={course.image_url}
         alt={course.name}
-        className="h-44 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        className="h-40 w-full object-cover transition-transform duration-500 group-hover:scale-105 sm:h-44"
       />
-      <CardContent className="space-y-3 p-5">
-        <div className="flex items-center gap-2">
+      <CardContent className="space-y-3 p-4 sm:p-5">
+        <div className="flex flex-wrap items-center gap-2">
+
           <Badge variant="secondary">{course.category}</Badge>
           {course.is_featured ? <Badge>Popular</Badge> : null}
         </div>
