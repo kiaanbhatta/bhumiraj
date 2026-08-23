@@ -37,20 +37,24 @@ export function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-hero-gradient text-primary-foreground">
       <div className="absolute inset-0 grid-noise opacity-40" aria-hidden />
-      <div className="container-page relative grid items-center gap-12 py-16 lg:grid-cols-2 lg:py-24">
-        <div>
-          <span className="inline-flex items-center gap-2 rounded-full border border-primary-foreground/25 bg-primary-foreground/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider">
-            <Sparkles className="size-3.5" /> Admissions open
+      <div
+        className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-accent/25 blur-3xl sm:size-96"
+        aria-hidden
+      />
+      <div className="container-page relative grid items-center gap-10 py-14 sm:py-16 lg:grid-cols-2 lg:gap-12 lg:py-24">
+        <div className="min-w-0 animate-fade-up">
+          <span className="inline-flex items-center gap-2 rounded-full border border-primary-foreground/25 bg-primary-foreground/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider sm:text-xs">
+            <Sparkles className="size-3.5 shrink-0" /> Admissions open
           </span>
-          <h1 className="mt-5 text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
+          <h1 className="mt-5 text-[clamp(2rem,7vw,3.75rem)] font-bold leading-[1.08]">
             {settings?.["hero_title"] ?? "Learn computer skills that get you hired"}
           </h1>
-          <p className="mt-5 max-w-xl text-base leading-relaxed text-primary-foreground/80">
+          <p className="mt-4 max-w-xl text-sm leading-relaxed text-primary-foreground/80 sm:mt-5 sm:text-base">
             {settings?.["hero_subtitle"] ??
               "Hands-on training in office packages, graphic design, accounting and typing — taught by experienced instructors with modern labs and certified courses."}
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button asChild size="lg" variant="secondary" className="rounded-full">
+          <div className="mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
+            <Button asChild size="lg" variant="secondary" className="w-full rounded-full sm:w-auto">
               <Link to="/admission">
                 Apply for admission <ArrowRight className="ml-1.5 size-4" />
               </Link>
@@ -59,7 +63,7 @@ export function HeroSection() {
               asChild
               size="lg"
               variant="outline"
-              className="rounded-full border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+              className="w-full rounded-full border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground sm:w-auto"
             >
               <Link to="/courses">Browse courses</Link>
             </Button>
@@ -67,21 +71,21 @@ export function HeroSection() {
         </div>
 
         <div className="relative">
-          <div className="overflow-hidden rounded-3xl border border-primary-foreground/15 shadow-glow">
+          <div className="overflow-hidden rounded-2xl border border-primary-foreground/15 shadow-glow sm:rounded-3xl">
             <img
               src={heroLab}
               alt="Students learning in the Bhumiraj Computer Institute training lab"
               width={1600}
               height={1104}
-              className="h-full w-full object-cover"
+              className="aspect-[4/3] w-full object-cover sm:aspect-[16/11]"
             />
           </div>
           <div className="absolute -bottom-6 left-4 hidden rounded-2xl border border-border bg-card p-4 text-card-foreground shadow-soft sm:block">
             <div className="flex items-center gap-3">
-              <span className="grid size-10 place-items-center rounded-xl bg-accent-gradient text-accent-foreground">
+              <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-accent-gradient text-accent-foreground">
                 <Trophy className="size-5" />
               </span>
-              <div>
+              <div className="min-w-0">
                 <p className="font-display text-sm font-bold">Certified training</p>
                 <p className="text-xs text-muted-foreground">Recognised course certificates</p>
               </div>
@@ -103,16 +107,16 @@ export function StatsSection() {
   ];
 
   return (
-    <section className="container-page -mt-10 relative z-10">
-      <div className="grid gap-4 rounded-3xl border border-border bg-card p-6 shadow-soft sm:grid-cols-2 lg:grid-cols-4">
+    <section className="container-page relative z-10 -mt-8 sm:-mt-10">
+      <div className="grid grid-cols-2 gap-4 rounded-2xl border border-border bg-card p-4 shadow-soft sm:gap-5 sm:rounded-3xl sm:p-6 lg:grid-cols-4">
         {stats.map(({ label, value, Icon }) => (
-          <div key={label} className="flex items-center gap-3">
-            <span className="grid size-11 place-items-center rounded-xl bg-primary-soft text-primary">
-              <Icon className="size-5" />
+          <div key={label} className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+            <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-primary-soft text-primary sm:size-11">
+              <Icon className="size-4 sm:size-5" />
             </span>
-            <div>
-              <p className="font-display text-xl font-bold">{value}</p>
-              <p className="text-xs text-muted-foreground">{label}</p>
+            <div className="min-w-0">
+              <p className="font-display text-base font-bold sm:text-xl">{value}</p>
+              <p className="truncate text-[11px] text-muted-foreground sm:text-xs">{label}</p>
             </div>
           </div>
         ))}
@@ -120,6 +124,7 @@ export function StatsSection() {
     </section>
   );
 }
+
 
 export function CourseCard({ course }: { course: Course }) {
   return (
