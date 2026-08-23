@@ -3,6 +3,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 
+import { InventoryTabs } from "@/components/admin/InventoryTabs";
 import { ResourceManager, type ResourceConfig } from "@/components/admin/ResourceManager";
 import { EmptyState, ListSkeleton } from "@/components/common/States";
 import { PageHero, PublicLayout } from "@/components/layout/PublicLayout";
