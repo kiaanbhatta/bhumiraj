@@ -175,10 +175,10 @@ export function TypingTest() {
   const progress = Math.min(100, Math.round((typed.length / target.length) * 100));
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-center gap-3">
+    <div className="space-y-5 sm:space-y-6">
+      <div className="grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap sm:items-center sm:gap-3">
         <Select value={language} onValueChange={setLanguage}>
-          <SelectTrigger className="w-36">
+          <SelectTrigger className="w-full sm:w-36">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -190,7 +190,7 @@ export function TypingTest() {
           </SelectContent>
         </Select>
         <Select value={difficulty} onValueChange={setDifficulty}>
-          <SelectTrigger className="w-40">
+          <SelectTrigger className="w-full sm:w-40">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -202,7 +202,7 @@ export function TypingTest() {
           </SelectContent>
         </Select>
         <Select value={String(duration)} onValueChange={(value) => setDuration(Number(value))}>
-          <SelectTrigger className="w-32">
+          <SelectTrigger className="w-full sm:w-32">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -213,26 +213,26 @@ export function TypingTest() {
             ))}
           </SelectContent>
         </Select>
-        <Button variant="outline" onClick={() => setTextIndex((index) => index + 1)}>
+        <Button variant="outline" className="w-full sm:w-auto" onClick={() => setTextIndex((index) => index + 1)}>
           New text
         </Button>
-        <Button variant="ghost" onClick={reset}>
+        <Button variant="ghost" className="col-span-2 w-full sm:col-span-1 sm:w-auto" onClick={reset}>
           <RotateCcw className="mr-2 size-4" /> Restart
         </Button>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
         {[
           { label: "Time left", value: `${remaining}s`, Icon: Timer },
           { label: "Speed", value: `${stats.wpm} WPM`, Icon: Zap },
           { label: "Accuracy", value: `${stats.accuracy}%`, Icon: Target },
           { label: "Score", value: String(score), Icon: Zap },
         ].map(({ label, value, Icon }) => (
-          <div key={label} className="rounded-2xl border border-border bg-card p-4">
-            <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
-              <Icon className="size-3.5 text-primary" /> {label}
+          <div key={label} className="min-w-0 rounded-2xl border border-border bg-card p-3 sm:p-4">
+            <p className="flex items-center gap-1.5 text-[11px] text-muted-foreground sm:text-xs">
+              <Icon className="size-3.5 shrink-0 text-primary" /> <span className="truncate">{label}</span>
             </p>
-            <p className="mt-1 font-display text-xl font-bold">{value}</p>
+            <p className="mt-1 font-display text-lg font-bold sm:text-xl">{value}</p>
           </div>
         ))}
       </div>
@@ -240,7 +240,10 @@ export function TypingTest() {
       <Progress value={progress} />
 
       <div
-        className="rounded-3xl border border-border bg-card p-6 font-mono text-lg leading-relaxed"
+        className="break-words rounded-2xl border border-border bg-card p-4 font-mono text-base leading-relaxed sm:rounded-3xl sm:p-6 sm:text-lg"
+        onClick={() => inputRef.current?.focus()}
+      >
+
         onClick={() => inputRef.current?.focus()}
       >
         {target.split("").map((char, index) => {
