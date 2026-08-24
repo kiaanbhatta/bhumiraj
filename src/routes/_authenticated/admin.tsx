@@ -66,9 +66,11 @@ function AdminPage() {
   return (
     <PublicLayout>
       <PageHero eyebrow="Admin" title="Content management" description="Manage enquiries, courses, notices and settings." />
-      <section className="container-page py-12">
+      <section className="container-page py-8 sm:py-12">
         <Tabs defaultValue="admissions">
-          <TabsList className="flex w-full flex-wrap justify-start">
+          <div className="-mx-4 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0">
+            <TabsList className="inline-flex w-max min-w-full flex-nowrap justify-start gap-1 sm:flex-wrap sm:w-full">
+
             <TabsTrigger value="admissions">Admissions</TabsTrigger>
             <TabsTrigger value="messages">Messages</TabsTrigger>
             <TabsTrigger value="courses">Courses</TabsTrigger>
