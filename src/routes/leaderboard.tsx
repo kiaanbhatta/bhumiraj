@@ -78,7 +78,7 @@ function LeaderboardPage() {
             {data?.map((entry, index) => (
               <li
                 key={entry.userId}
-                className="flex items-center gap-4 rounded-2xl border border-border bg-card p-4"
+                className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3 sm:gap-4 sm:p-4"
               >
                 <span
                   className={`grid size-9 shrink-0 place-items-center rounded-xl font-display text-sm font-bold ${
@@ -87,7 +87,7 @@ function LeaderboardPage() {
                 >
                   {index === 0 ? <Crown className="size-4" /> : index + 1}
                 </span>
-                <span className="grid size-10 shrink-0 place-items-center rounded-full bg-primary-soft text-xs font-bold text-primary">
+                <span className="hidden size-10 shrink-0 place-items-center rounded-full bg-primary-soft text-xs font-bold text-primary sm:grid">
                   {initials(entry.name)}
                 </span>
                 <div className="min-w-0 flex-1">
@@ -96,12 +96,13 @@ function LeaderboardPage() {
                     Level {entry.level} · {entry.xp} XP
                   </p>
                 </div>
-                <div className="flex shrink-0 gap-2">
+                <div className="flex shrink-0 flex-wrap justify-end gap-1.5 sm:gap-2">
                   <Badge variant="secondary">{entry.wpm} WPM</Badge>
                   <Badge variant="secondary">{entry.accuracy}%</Badge>
                   <Badge>{entry.score}</Badge>
                 </div>
               </li>
+
             ))}
           </ol>
         )}
