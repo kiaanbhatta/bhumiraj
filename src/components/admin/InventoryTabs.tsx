@@ -508,6 +508,8 @@ export function SalesTab() {
   const { data: methods } = usePaymentMethods();
   const { data: sales, isLoading } = useSales({ preset, from, to, paymentMethod });
   const processReturn = useProcessReturn();
+  const deleteSale = useDeleteSale();
+
   const [openId, setOpenId] = useState<string | null>(null);
   const [returnQty, setReturnQty] = useState<Record<string, number>>({});
 
