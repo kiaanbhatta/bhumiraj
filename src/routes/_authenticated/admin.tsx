@@ -91,7 +91,9 @@ function AdminPage() {
             <TabsTrigger value="sales">Sales</TabsTrigger>
             <TabsTrigger value="reports">Reports</TabsTrigger>
             <TabsTrigger value="settings">Site settings</TabsTrigger>
-          </TabsList>
+            </TabsList>
+          </div>
+
 
           <TabsContent value="admissions" className="pt-6">
             <AdmissionsTab />
