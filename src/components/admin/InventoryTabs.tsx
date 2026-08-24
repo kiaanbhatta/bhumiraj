@@ -601,7 +601,25 @@ export function SalesTab() {
                 >
                   {openId === sale.id ? "Close" : "Details / return"}
                 </Button>
+                <Button
+                  size="sm"
+                  variant="destructive"
+                  disabled={deleteSale.isPending}
+                  aria-label={`Delete sale ${sale.invoice_no}`}
+                  onClick={() => {
+                    if (
+                      window.confirm(
+                        `Delete sale ${sale.invoice_no}? Stock will be returned to inventory. This cannot be undone.`,
+                      )
+                    ) {
+                      deleteSale.mutate(sale.id);
+                    }
+                  }}
+                >
+                  <Trash2 className="size-4" />
+                </Button>
               </div>
+
 
               {openId === sale.id ? (
                 <div className="mt-4 space-y-3 border-t border-border pt-4">
