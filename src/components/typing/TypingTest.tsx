@@ -243,9 +243,6 @@ export function TypingTest() {
         className="break-words rounded-2xl border border-border bg-card p-4 font-mono text-base leading-relaxed sm:rounded-3xl sm:p-6 sm:text-lg"
         onClick={() => inputRef.current?.focus()}
       >
-
-        onClick={() => inputRef.current?.focus()}
-      >
         {target.split("").map((char, index) => {
           const typedChar = typed[index];
           const state =
