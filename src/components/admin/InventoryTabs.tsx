@@ -20,6 +20,8 @@ import {
   useAdjustStock,
   useCreateSale,
   useDeleteProduct,
+  useDeleteSale,
+
   usePaymentMethods,
   useProcessReturn,
   useProducts,
