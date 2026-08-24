@@ -331,6 +331,22 @@ export function useProcessReturn() {
   });
 }
 
+export function useDeleteSale() {
+  const invalidate = useInvalidateInventory();
+  return useMutation({
+    mutationFn: async (saleId: string) => {
+      const { error } = await supabase.rpc("delete_sale", { _sale_id: saleId });
+      if (error) throw new Error(error.message);
+    },
+    onSuccess: () => {
+      toast.success("Sale deleted and stock restored");
+      invalidate();
+    },
+    onError: (error: Error) => toast.error(error.message),
+  });
+}
+
+
 /** Aggregates computed from real sale rows. */
 export function summarizeSales(sales: SaleWithItems[]) {
   let revenue = 0;
