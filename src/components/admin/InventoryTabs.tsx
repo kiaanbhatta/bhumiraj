@@ -687,6 +687,7 @@ export function ReportsTab() {
   const [preset, setPreset] = useState<SalePreset>("month");
   const { data: sales } = useSales({ preset });
   const { data: products } = useProducts();
+  const deleteSale = useDeleteSale();
 
   const summary = summarizeSales(sales ?? []);
   const stock = inventoryTotals(products ?? []);
@@ -783,6 +784,45 @@ export function ReportsTab() {
             ))
           )}
         </div>
+      </div>
+
+      <div className="rounded-2xl border border-border bg-card p-5">
+        <h3 className="mb-3 font-display text-base font-semibold">Sales records in this period</h3>
+        {(sales ?? []).length === 0 ? (
+          <p className="text-sm text-muted-foreground">No sales yet.</p>
+        ) : (
+          <div className="space-y-2">
+            {(sales ?? []).map((sale) => (
+              <div
+                key={sale.id}
+                className="flex flex-wrap items-center justify-between gap-2 border-b border-border py-2 text-sm last:border-0"
+              >
+                <div className="min-w-0">
+                  <p className="truncate font-medium">{sale.invoice_no}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {formatDate(sale.sale_date)} · {sale.sale_items.length} items · {formatMoney(sale.total)}
+                  </p>
+                </div>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => {
+                    if (
+                      window.confirm(
+                        `Delete sale ${sale.invoice_no}? The sold items will be returned to stock. This cannot be undone.`,
+                      )
+                    ) {
+                      deleteSale.mutate(sale.id);
+                    }
+                  }}
+                  disabled={deleteSale.isPending}
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
