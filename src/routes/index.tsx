@@ -7,6 +7,7 @@ import {
   GalleryPreviewSection,
   HeroSection,
   NewsNoticesSection,
+  PhotoFramesSection,
   StatsSection,
   StudentsSection,
   TestimonialsSection,
@@ -77,6 +78,7 @@ function Home() {
       <PopularCourses />
       <FacilitiesSection />
       <TypingPromoSection />
+      <PhotoFramesSection />
       <GalleryPreviewSection />
       <StudentsSection />
       <NewsNoticesSection />
