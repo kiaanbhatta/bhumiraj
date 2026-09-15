@@ -271,6 +271,68 @@ export type Database = {
         }
         Relationships: []
       }
+      frame_orders: {
+        Row: {
+          address: string
+          created_at: string
+          customer_name: string
+          email: string
+          frame_id: string | null
+          frame_name: string
+          frame_size: string
+          id: string
+          note: string
+          phone: string
+          quantity: number
+          status: string
+          total_price: number
+          unit_price: number
+          updated_at: string
+        }
+        Insert: {
+          address?: string
+          created_at?: string
+          customer_name: string
+          email?: string
+          frame_id?: string | null
+          frame_name: string
+          frame_size?: string
+          id?: string
+          note?: string
+          phone: string
+          quantity?: number
+          status?: string
+          total_price?: number
+          unit_price?: number
+          updated_at?: string
+        }
+        Update: {
+          address?: string
+          created_at?: string
+          customer_name?: string
+          email?: string
+          frame_id?: string | null
+          frame_name?: string
+          frame_size?: string
+          id?: string
+          note?: string
+          phone?: string
+          quantity?: number
+          status?: string
+          total_price?: number
+          unit_price?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "frame_orders_frame_id_fkey"
+            columns: ["frame_id"]
+            isOneToOne: false
+            referencedRelation: "photo_frames"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       gallery_categories: {
         Row: {
           created_at: string
