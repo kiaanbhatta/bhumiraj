@@ -77,6 +77,7 @@ function AdminPage() {
             <TabsTrigger value="gallery">Gallery</TabsTrigger>
             <TabsTrigger value="categories">Categories</TabsTrigger>
             <TabsTrigger value="videos">Videos</TabsTrigger>
+            <TabsTrigger value="frames">Photo frames</TabsTrigger>
             <TabsTrigger value="news">News</TabsTrigger>
             <TabsTrigger value="notices">Notices</TabsTrigger>
             <TabsTrigger value="events">Events</TabsTrigger>
@@ -112,6 +113,9 @@ function AdminPage() {
           </TabsContent>
           <TabsContent value="videos" className="pt-6">
             <ResourceManager config={videosConfig} />
+          </TabsContent>
+          <TabsContent value="frames" className="pt-6">
+            <ResourceManager config={photoFramesConfig} />
           </TabsContent>
           <TabsContent value="news" className="pt-6">
             <ResourceManager config={newsConfig} />
@@ -283,6 +287,27 @@ function MessagesTab() {
   );
 }
 
+
+const photoFramesConfig: ResourceConfig = {
+  table: "photo_frames",
+  title: "photo frame",
+  queryKey: "photo_frames",
+  orderBy: { column: "sort_order", ascending: true },
+  titleKey: "name",
+  imageKey: "image_url",
+  folder: "photo-frames",
+  subtitle: (row) => `${String(row["size"] ?? "")} · Rs ${String(row["price"] ?? 0)}`,
+  fields: [
+    { name: "name", label: "Frame name", required: true },
+    { name: "image_url", label: "Frame photo", type: "image" },
+    { name: "size", label: "Size", placeholder: "8x10 inch" },
+    { name: "price", label: "Price (Rs)", type: "number" },
+    { name: "description", label: "Description", type: "textarea", rows: 3 },
+    { name: "sort_order", label: "Sort order", type: "number" },
+    { name: "is_featured", label: "Featured", type: "boolean" },
+    { name: "is_active", label: "Active", type: "boolean", defaultValue: true },
+  ],
+};
 
 const coursesConfig: ResourceConfig = {
   table: "courses",

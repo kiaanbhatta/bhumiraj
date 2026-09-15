@@ -32,6 +32,7 @@ const NAV_LINKS = [
   { to: "/about", label: "About" },
   { to: "/courses", label: "Courses" },
   { to: "/gallery", label: "Gallery" },
+  { to: "/photo-frames", label: "Photo Frames" },
   { to: "/passed-students", label: "Students" },
   { to: "/news", label: "News" },
   { to: "/typing", label: "Typing Test" },

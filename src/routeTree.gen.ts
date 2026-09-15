@@ -20,6 +20,7 @@ import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as LeaderboardRouteImport } from './routes/leaderboard'
 import { Route as NoticesRouteImport } from './routes/notices'
 import { Route as PassedStudentsRouteImport } from './routes/passed-students'
+import { Route as PhotoFramesRouteImport } from './routes/photo-frames'
 import { Route as TeachersRouteImport } from './routes/teachers'
 import { Route as TypingRouteImport } from './routes/typing'
 import { Route as VideosRouteImport } from './routes/videos'
@@ -84,6 +85,11 @@ const PassedStudentsRoute = PassedStudentsRouteImport.update({
   path: '/passed-students',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PhotoFramesRoute = PhotoFramesRouteImport.update({
+  id: '/photo-frames',
+  path: '/photo-frames',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TeachersRoute = TeachersRouteImport.update({
   id: '/teachers',
   path: '/teachers',
@@ -141,6 +147,7 @@ export interface FileRoutesByFullPath {
   '/leaderboard': typeof LeaderboardRoute
   '/notices': typeof NoticesRoute
   '/passed-students': typeof PassedStudentsRoute
+  '/photo-frames': typeof PhotoFramesRoute
   '/teachers': typeof TeachersRoute
   '/typing': typeof TypingRoute
   '/videos': typeof VideosRoute
@@ -162,6 +169,7 @@ export interface FileRoutesByTo {
   '/leaderboard': typeof LeaderboardRoute
   '/notices': typeof NoticesRoute
   '/passed-students': typeof PassedStudentsRoute
+  '/photo-frames': typeof PhotoFramesRoute
   '/teachers': typeof TeachersRoute
   '/typing': typeof TypingRoute
   '/videos': typeof VideosRoute
@@ -185,6 +193,7 @@ export interface FileRoutesById {
   '/leaderboard': typeof LeaderboardRoute
   '/notices': typeof NoticesRoute
   '/passed-students': typeof PassedStudentsRoute
+  '/photo-frames': typeof PhotoFramesRoute
   '/teachers': typeof TeachersRoute
   '/typing': typeof TypingRoute
   '/videos': typeof VideosRoute
@@ -208,6 +217,7 @@ export interface FileRouteTypes {
     | '/leaderboard'
     | '/notices'
     | '/passed-students'
+    | '/photo-frames'
     | '/teachers'
     | '/typing'
     | '/videos'
@@ -229,6 +239,7 @@ export interface FileRouteTypes {
     | '/leaderboard'
     | '/notices'
     | '/passed-students'
+    | '/photo-frames'
     | '/teachers'
     | '/typing'
     | '/videos'
@@ -251,6 +262,7 @@ export interface FileRouteTypes {
     | '/leaderboard'
     | '/notices'
     | '/passed-students'
+    | '/photo-frames'
     | '/teachers'
     | '/typing'
     | '/videos'
@@ -274,6 +286,7 @@ export interface RootRouteChildren {
   LeaderboardRoute: typeof LeaderboardRoute
   NoticesRoute: typeof NoticesRoute
   PassedStudentsRoute: typeof PassedStudentsRoute
+  PhotoFramesRoute: typeof PhotoFramesRoute
   TeachersRoute: typeof TeachersRoute
   TypingRoute: typeof TypingRoute
   VideosRoute: typeof VideosRoute
@@ -360,6 +373,13 @@ declare module '@tanstack/react-router' {
       path: '/passed-students'
       fullPath: '/passed-students'
       preLoaderRoute: typeof PassedStudentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/photo-frames': {
+      id: '/photo-frames'
+      path: '/photo-frames'
+      fullPath: '/photo-frames'
+      preLoaderRoute: typeof PhotoFramesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/teachers': {
@@ -453,6 +473,7 @@ const rootRouteChildren: RootRouteChildren = {
   LeaderboardRoute: LeaderboardRoute,
   NoticesRoute: NoticesRoute,
   PassedStudentsRoute: PassedStudentsRoute,
+  PhotoFramesRoute: PhotoFramesRoute,
   TeachersRoute: TeachersRoute,
   TypingRoute: TypingRoute,
   VideosRoute: VideosRoute,

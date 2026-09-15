@@ -20,6 +20,7 @@ export type Achievement = Tables<"achievements">;
 export type Admission = Tables<"admissions">;
 export type ContactMessage = Tables<"contact_messages">;
 export type TypingResult = Tables<"typing_results">;
+export type PhotoFrame = Tables<"photo_frames">;
 
 const STALE = 60 * 1000;
 
@@ -250,6 +251,25 @@ export function useTypingTexts(language: string, difficulty: string) {
           .eq("language", language)
           .eq("difficulty", difficulty),
       ),
+  });
+}
+
+export function usePhotoFrames(options: { featuredOnly?: boolean; limit?: number } = {}) {
+  const { featuredOnly = false, limit } = options;
+  return useQuery({
+    queryKey: ["photo_frames", featuredOnly, limit],
+    staleTime: STALE,
+    queryFn: async () => {
+      let query = supabase
+        .from("photo_frames")
+        .select("*")
+        .eq("is_active", true)
+        .order("sort_order")
+        .order("created_at", { ascending: false });
+      if (featuredOnly) query = query.eq("is_featured", true);
+      if (limit) query = query.limit(limit);
+      return unwrap<PhotoFrame[]>(await query);
+    },
   });
 }
 
