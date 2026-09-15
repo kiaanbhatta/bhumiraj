@@ -25,6 +25,7 @@ import {
   useNews,
   useNotices,
   usePassedStudents,
+  usePhotoFrames,
   useSiteSettings,
   useTestimonials,
   type Course,
@@ -257,6 +258,47 @@ export function GalleryPreviewSection() {
       <div className="mt-8 text-center">
         <Button asChild variant="outline" className="rounded-full">
           <Link to="/gallery">View full gallery</Link>
+        </Button>
+      </div>
+    </section>
+  );
+}
+
+export function PhotoFramesSection() {
+  const { data, isLoading } = usePhotoFrames({ limit: 4 });
+
+  if (!isLoading && (data?.length ?? 0) === 0) return null;
+
+  return (
+    <section className="container-page py-12 sm:py-16">
+      <SectionHeading
+        eyebrow="Photo frames"
+        title="Photo frames available with us"
+        description="Quality frames in different sizes — see the latest prices."
+      />
+      {isLoading ? (
+        <CardGridSkeleton count={4} className="mt-10 lg:grid-cols-4" />
+      ) : (
+        <div className="mt-10 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
+          {data?.map((frame) => (
+            <div key={frame.id} className="overflow-hidden rounded-2xl border border-border bg-card">
+              <SmartImage
+                src={frame.image_url}
+                alt={frame.name}
+                className="aspect-4/3 w-full object-cover"
+              />
+              <div className="space-y-1 p-3 sm:p-4">
+                <p className="truncate font-display text-sm font-semibold sm:text-base">{frame.name}</p>
+                {frame.size ? <p className="text-xs text-muted-foreground">{frame.size}</p> : null}
+                <p className="text-sm font-semibold text-primary">{formatFee(frame.price)}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      <div className="mt-8 text-center">
+        <Button asChild variant="outline" className="rounded-full">
+          <Link to="/photo-frames">View all photo frames</Link>
         </Button>
       </div>
     </section>
