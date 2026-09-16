@@ -62,9 +62,10 @@ function PhotoFramesPage() {
                   {frame.description ? (
                     <p className="text-sm text-muted-foreground">{frame.description}</p>
                   ) : null}
-                  <p className="border-t border-border pt-3 font-semibold text-primary">
-                    {formatFee(frame.price)}
-                  </p>
+                  <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-3">
+                    <p className="font-semibold text-primary">{formatFee(frame.price)}</p>
+                    <FrameOrderDialog frame={frame} />
+                  </div>
                 </CardContent>
               </Card>
             ))}
