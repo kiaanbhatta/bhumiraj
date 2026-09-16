@@ -14,20 +14,19 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { supabase } from "@/integrations/supabase/client";
 import { formatFee } from "@/lib/format";
 import type { PhotoFrame } from "@/lib/queries";
 
 type Props = { frame: PhotoFrame; className?: string };
 
+const WHATSAPP_NUMBER = "9779848726531";
+
 export function FrameOrderDialog({ frame, className }: Props) {
   const [open, setOpen] = useState(false);
-  const [saving, setSaving] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [form, setForm] = useState({
     customer_name: "",
     phone: "",
-    email: "",
     address: "",
     note: "",
   });
@@ -35,7 +34,7 @@ export function FrameOrderDialog({ frame, className }: Props) {
   const total = Number(frame.price ?? 0) * Math.max(1, quantity);
   const set = (key: keyof typeof form, value: string) => setForm((prev) => ({ ...prev, [key]: value }));
 
-  const submit = async (event: React.FormEvent) => {
+  const submit = (event: React.FormEvent) => {
     event.preventDefault();
     if (!form.customer_name.trim()) {
       toast.error("Please enter your name");
@@ -50,28 +49,23 @@ export function FrameOrderDialog({ frame, className }: Props) {
       return;
     }
 
-    setSaving(true);
-    const { error } = await supabase.from("frame_orders").insert({
-      frame_id: frame.id,
-      frame_name: frame.name,
-      frame_size: frame.size ?? "",
-      unit_price: Number(frame.price ?? 0),
-      quantity: Math.max(1, quantity),
-      total_price: total,
-      customer_name: form.customer_name.trim(),
-      phone: form.phone.trim(),
-      email: form.email.trim(),
-      address: form.address.trim(),
-      note: form.note.trim(),
-    });
-    setSaving(false);
+    const lines = [
+      "New photo frame order",
+      `Frame: ${frame.name}${frame.size ? ` (${frame.size})` : ""}`,
+      `Price: ${formatFee(frame.price)}`,
+      `Quantity: ${Math.max(1, quantity)}`,
+      `Total: ${formatFee(total)}`,
+      `Name: ${form.customer_name.trim()}`,
+      `Phone: ${form.phone.trim()}`,
+      `Address: ${form.address.trim()}`,
+      ...(form.note.trim() ? [`Note: ${form.note.trim()}`] : []),
+    ];
 
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
-    toast.success("Order placed! We will contact you soon.");
-    setForm({ customer_name: "", phone: "", email: "", address: "", note: "" });
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`;
+    window.open(url, "_blank", "noopener,noreferrer");
+
+    toast.success("Opening WhatsApp to send your order...");
+    setForm({ customer_name: "", phone: "", address: "", note: "" });
     setQuantity(1);
     setOpen(false);
   };
@@ -80,7 +74,7 @@ export function FrameOrderDialog({ frame, className }: Props) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className={className} size="sm">
-          Order this frame
+          Order on WhatsApp
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-md">
@@ -88,7 +82,7 @@ export function FrameOrderDialog({ frame, className }: Props) {
           <DialogTitle>Order {frame.name}</DialogTitle>
           <DialogDescription>
             {frame.size ? `${frame.size} · ` : ""}
-            {formatFee(frame.price)} per frame
+            {formatFee(frame.price)} per frame — your order is sent to us on WhatsApp.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={submit} className="space-y-4">
@@ -111,10 +105,6 @@ export function FrameOrderDialog({ frame, className }: Props) {
             <Input id="frame-phone" value={form.phone} onChange={(e) => set("phone", e.target.value)} />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="frame-email">Email (optional)</Label>
-            <Input id="frame-email" type="email" value={form.email} onChange={(e) => set("email", e.target.value)} />
-          </div>
-          <div className="space-y-2">
             <Label htmlFor="frame-address">Delivery address</Label>
             <Textarea id="frame-address" rows={2} value={form.address} onChange={(e) => set("address", e.target.value)} />
           </div>
@@ -124,8 +114,8 @@ export function FrameOrderDialog({ frame, className }: Props) {
           </div>
           <p className="rounded-lg bg-muted px-3 py-2 text-sm font-semibold">Total: {formatFee(total)}</p>
           <DialogFooter>
-            <Button type="submit" className="w-full" disabled={saving}>
-              {saving ? "Placing order..." : "Place order"}
+            <Button type="submit" className="w-full">
+              Send order on WhatsApp
             </Button>
           </DialogFooter>
         </form>
