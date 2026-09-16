@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { SmartImage } from "@/components/common/Media";
+import { FrameOrderDialog } from "@/components/frames/FrameOrderDialog";
 import { CardGridSkeleton, EmptyState } from "@/components/common/States";
 import { PageHero, PublicLayout } from "@/components/layout/PublicLayout";
 import { Badge } from "@/components/ui/badge";
