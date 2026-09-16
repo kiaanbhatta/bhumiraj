@@ -78,6 +78,7 @@ function AdminPage() {
             <TabsTrigger value="categories">Categories</TabsTrigger>
             <TabsTrigger value="videos">Videos</TabsTrigger>
             <TabsTrigger value="frames">Photo frames</TabsTrigger>
+            <TabsTrigger value="frame-orders">Frame orders</TabsTrigger>
             <TabsTrigger value="news">News</TabsTrigger>
             <TabsTrigger value="notices">Notices</TabsTrigger>
             <TabsTrigger value="events">Events</TabsTrigger>
