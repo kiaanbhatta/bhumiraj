@@ -37,9 +37,18 @@ export function FrameOrderDialog({ frame, className }: Props) {
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!form.customer_name.trim()) return toast.error("Please enter your name");
-    if (!form.phone.trim()) return toast.error("Please enter your phone number");
-    if (!form.address.trim()) return toast.error("Please enter your delivery address");
+    if (!form.customer_name.trim()) {
+      toast.error("Please enter your name");
+      return;
+    }
+    if (!form.phone.trim()) {
+      toast.error("Please enter your phone number");
+      return;
+    }
+    if (!form.address.trim()) {
+      toast.error("Please enter your delivery address");
+      return;
+    }
 
     setSaving(true);
     const { error } = await supabase.from("frame_orders").insert({
