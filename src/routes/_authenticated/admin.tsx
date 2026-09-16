@@ -118,6 +118,9 @@ function AdminPage() {
           <TabsContent value="frames" className="pt-6">
             <ResourceManager config={photoFramesConfig} />
           </TabsContent>
+          <TabsContent value="frame-orders" className="pt-6">
+            <FrameOrdersTab />
+          </TabsContent>
           <TabsContent value="news" className="pt-6">
             <ResourceManager config={newsConfig} />
           </TabsContent>
