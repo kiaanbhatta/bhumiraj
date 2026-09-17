@@ -76,9 +76,9 @@ function Home() {
       <HeroSection />
       <StatsSection />
       <PopularCourses />
-      <FacilitiesSection />
-      <TypingPromoSection />
       <PhotoFramesSection />
+      <TypingPromoSection />
+      <FacilitiesSection />
       <GalleryPreviewSection />
       <StudentsSection />
       <NewsNoticesSection />
