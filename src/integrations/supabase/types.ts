@@ -1241,19 +1241,7 @@ export type Database = {
       }
     }
     Views: {
-      leaderboard: {
-        Row: {
-          accuracy: number | null
-          avatar_url: string | null
-          display_name: string | null
-          entry_id: string | null
-          level: number | null
-          score: number | null
-          wpm: number | null
-          xp: number | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
       adjust_stock: {
