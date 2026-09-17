@@ -40,7 +40,7 @@ export const getLeaderboard = createServerFn({ method: "GET" }).handler(async ()
 
   return Array.from(best.entries())
     .map(([userId, value], index) => ({
-      entryId: `rank-${index}-${userId.slice(0, 8)}`,
+      entryId: `entry-${index}`,
       name: profileMap.get(userId)?.display_name ?? "Student",
       xp: profileMap.get(userId)?.xp ?? 0,
       level: profileMap.get(userId)?.level ?? 1,
