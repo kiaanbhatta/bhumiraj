@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { createFileRoute } from "@tanstack/react-router";
 import { Crown } from "lucide-react";
 
 import { EmptyState, ListSkeleton } from "@/components/common/States";
 import { PageHero, PublicLayout } from "@/components/layout/PublicLayout";
 import { Badge } from "@/components/ui/badge";
-import { supabase } from "@/integrations/supabase/client";
+import { getLeaderboard } from "@/lib/leaderboard.functions";
 import { initials } from "@/lib/format";
 
 export const Route = createFileRoute("/leaderboard")({
@@ -24,40 +25,11 @@ export const Route = createFileRoute("/leaderboard")({
 });
 
 function useLeaderboard() {
+  const fetchLeaderboard = useServerFn(getLeaderboard);
   return useQuery({
     queryKey: ["leaderboard"],
     staleTime: 30_000,
-    queryFn: async () => {
-      const [{ data: results, error }, { data: profiles }] = await Promise.all([
-        supabase
-          .from("typing_results")
-          .select("user_id, wpm, accuracy, score, language")
-          .order("score", { ascending: false })
-          .limit(200),
-        supabase.from("profiles").select("user_id, display_name, avatar_url, xp, level"),
-      ]);
-      if (error) throw new Error(error.message);
-
-      const profileMap = new Map((profiles ?? []).map((row) => [row.user_id, row]));
-      const best = new Map<string, { wpm: number; accuracy: number; score: number }>();
-      for (const row of results ?? []) {
-        const existing = best.get(row.user_id);
-        if (!existing || row.score > existing.score) {
-          best.set(row.user_id, { wpm: Number(row.wpm), accuracy: Number(row.accuracy), score: row.score });
-        }
-      }
-
-      return Array.from(best.entries())
-        .map(([userId, value]) => ({
-          userId,
-          ...value,
-          name: profileMap.get(userId)?.display_name ?? "Student",
-          xp: profileMap.get(userId)?.xp ?? 0,
-          level: profileMap.get(userId)?.level ?? 1,
-        }))
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 50);
-    },
+    queryFn: () => fetchLeaderboard(),
   });
 }
 
@@ -77,7 +49,7 @@ function LeaderboardPage() {
           <ol className="space-y-3">
             {data?.map((entry, index) => (
               <li
-                key={entry.userId}
+                key={entry.entryId}
                 className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3 sm:gap-4 sm:p-4"
               >
                 <span
