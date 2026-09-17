@@ -78,7 +78,7 @@ function AdminPage() {
             <TabsTrigger value="categories">Categories</TabsTrigger>
             <TabsTrigger value="videos">Videos</TabsTrigger>
             <TabsTrigger value="frames">Photo frames</TabsTrigger>
-            <TabsTrigger value="frame-orders">Frame orders</TabsTrigger>
+            
             <TabsTrigger value="news">News</TabsTrigger>
             <TabsTrigger value="notices">Notices</TabsTrigger>
             <TabsTrigger value="events">Events</TabsTrigger>
@@ -117,9 +117,6 @@ function AdminPage() {
           </TabsContent>
           <TabsContent value="frames" className="pt-6">
             <ResourceManager config={photoFramesConfig} />
-          </TabsContent>
-          <TabsContent value="frame-orders" className="pt-6">
-            <FrameOrdersTab />
           </TabsContent>
           <TabsContent value="news" className="pt-6">
             <ResourceManager config={newsConfig} />
@@ -236,98 +233,6 @@ function AdmissionsTab() {
   );
 }
 
-function FrameOrdersTab() {
-  const queryClient = useQueryClient();
-  const { data, isLoading } = useQuery({
-    queryKey: ["admin_frame_orders"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("frame_orders")
-        .select("*")
-        .order("created_at", { ascending: false });
-      if (error) throw new Error(error.message);
-      return data;
-    },
-  });
-
-  const invalidate = () => void queryClient.invalidateQueries({ queryKey: ["admin_frame_orders"] });
-
-  const updateStatus = useMutation({
-    mutationFn: async ({ id, status }: { id: string; status: string }) => {
-      const { error } = await supabase.from("frame_orders").update({ status }).eq("id", id);
-      if (error) throw new Error(error.message);
-    },
-    onSuccess: () => {
-      toast.success("Status updated");
-      invalidate();
-    },
-    onError: (error: Error) => toast.error(error.message),
-  });
-
-  const remove = useMutation({
-    mutationFn: async (id: string) => {
-      const { error } = await supabase.from("frame_orders").delete().eq("id", id);
-      if (error) throw new Error(error.message);
-    },
-    onSuccess: () => {
-      toast.success("Order deleted");
-      invalidate();
-    },
-    onError: (error: Error) => toast.error(error.message),
-  });
-
-  if (isLoading) return <ListSkeleton />;
-  if ((data?.length ?? 0) === 0) return <EmptyState title="No frame orders yet" />;
-
-  return (
-    <div className="space-y-3">
-      {data?.map((row) => (
-        <div key={row.id} className="rounded-2xl border border-border bg-card p-5">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="min-w-0">
-              <p className="font-display text-base font-semibold">
-                {row.frame_name} {row.frame_size ? `· ${row.frame_size}` : ""}
-              </p>
-              <p className="text-xs text-muted-foreground">{formatDate(row.created_at)}</p>
-            </div>
-            <Badge variant={row.status === "pending" ? "secondary" : "default"}>{row.status}</Badge>
-          </div>
-          <div className="mt-3 grid gap-1 text-sm text-muted-foreground sm:grid-cols-2">
-            <p>Customer: {row.customer_name}</p>
-            <p>Phone: {row.phone}</p>
-            <p>Email: {row.email || "—"}</p>
-            <p>Address: {row.address}</p>
-            <p>Quantity: {row.quantity}</p>
-            <p className="font-semibold text-foreground">Total: Rs. {Number(row.total_price).toLocaleString("en-IN")}</p>
-          </div>
-          {row.note ? <p className="mt-2 text-sm">{row.note}</p> : null}
-          <div className="mt-4 flex flex-wrap items-center gap-2">
-            {["pending", "confirmed", "delivered", "cancelled"].map((status) => (
-              <Button
-                key={status}
-                size="sm"
-                variant={row.status === status ? "default" : "outline"}
-                onClick={() => updateStatus.mutate({ id: row.id, status })}
-              >
-                {status}
-              </Button>
-            ))}
-            <Button
-              size="sm"
-              variant="destructive"
-              className="ml-auto"
-              onClick={() => {
-                if (window.confirm("Delete this order permanently?")) remove.mutate(row.id);
-              }}
-            >
-              Delete
-            </Button>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
 
 function MessagesTab() {
   const queryClient = useQueryClient();
