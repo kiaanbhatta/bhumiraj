@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { createFileRoute } from "@tanstack/react-router";
 import { Crown } from "lucide-react";
 
 import { EmptyState, ListSkeleton } from "@/components/common/States";
 import { PageHero, PublicLayout } from "@/components/layout/PublicLayout";
 import { Badge } from "@/components/ui/badge";
-import { supabase } from "@/integrations/supabase/client";
+import { getLeaderboard } from "@/lib/leaderboard.functions";
 import { initials } from "@/lib/format";
 
 export const Route = createFileRoute("/leaderboard")({
@@ -48,7 +49,7 @@ function LeaderboardPage() {
           <ol className="space-y-3">
             {data?.map((entry, index) => (
               <li
-                key={entry.userId}
+                key={entry.entryId}
                 className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3 sm:gap-4 sm:p-4"
               >
                 <span
