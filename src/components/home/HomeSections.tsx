@@ -30,7 +30,7 @@ import {
   useTestimonials,
   type Course,
 } from "@/lib/queries";
-import heroCertificate from "@/assets/hero-certificate-v2.jpg.asset.json";
+import heroCertificate from "@/assets/hero-certificate.jpg";
 
 export function HeroSection() {
   const { data: settings } = useSiteSettings();
@@ -74,7 +74,7 @@ export function HeroSection() {
         <div className="relative">
           <div className="overflow-hidden rounded-2xl border border-primary-foreground/15 shadow-glow sm:rounded-3xl">
             <img
-              src={heroCertificate.url}
+              src={heroCertificate}
               alt="Students receiving certificates at Bhumiraj Computer Institute"
               width={1600}
               height={1104}
