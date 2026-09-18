@@ -30,7 +30,7 @@ import {
   useTestimonials,
   type Course,
 } from "@/lib/queries";
-import heroCertificate from "@/assets/hero-certificate.jpg.asset.json";
+import heroCertificate from "@/assets/hero-certificate-v2.jpg.asset.json";
 
 export function HeroSection() {
   const { data: settings } = useSiteSettings();
