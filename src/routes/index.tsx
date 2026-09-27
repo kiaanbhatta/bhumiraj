@@ -44,7 +44,7 @@ export const Route = createFileRoute("/")({
           "@context": "https://schema.org",
           "@type": "EducationalOrganization",
           name: "Bhumiraj Computer Institute",
-          alternateName: "Bhumiraj Computer",
+          alternateName: ["Bhumiraj Computer", "Bhumiraj IT Jhalari"],
           url: "https://bhumiraj.lovable.app/",
           description:
             "Job-focused computer courses, typing practice, certified training and online admission at Bhumiraj Computer Institute.",

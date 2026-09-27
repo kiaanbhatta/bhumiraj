@@ -90,7 +90,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "keywords",
         content:
-          "bhumiraj computer institute, bhumiraj computer, computer institute, computer training, computer courses, typing practice, computer classes Nepal, IT training, online admission",
+          "bhumiraj computer institute, bhumiraj computer, bhumiraj it jhalari, Bhumiraj IT Jhalari, computer institute, computer training, computer courses, typing practice, computer classes Nepal, IT training, online admission",
       },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Bhumiraj Computer Institute" },
