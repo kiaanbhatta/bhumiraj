@@ -87,7 +87,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Bhumiraj Computer Institute offers practical, job-focused computer courses, typing practice and skill training.",
       },
       { name: "author", content: "Bhumiraj Computer Institute" },
+      {
+        name: "keywords",
+        content:
+          "bhumiraj computer institute, bhumiraj computer, computer institute, computer training, computer courses, typing practice, computer classes Nepal, IT training, online admission",
+      },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Bhumiraj Computer Institute" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [

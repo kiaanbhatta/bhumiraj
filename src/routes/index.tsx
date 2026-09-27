@@ -22,16 +22,33 @@ import { useCourses } from "@/lib/queries";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Bhumiraj Computer Institute — Practical Computer Training" },
+      { title: "Bhumiraj Computer Institute — Practical Computer Training & Courses" },
       {
         name: "description",
         content:
-          "Job-focused computer courses, typing practice, certified training and online admission at Bhumiraj Computer Institute.",
+          "Bhumiraj Computer Institute (Bhumiraj Computer) offers job-focused computer courses, typing practice, certified training and online admission. Learn practical computer skills with expert teachers.",
       },
-      { property: "og:title", content: "Bhumiraj Computer Institute" },
+      { property: "og:title", content: "Bhumiraj Computer Institute — Practical Computer Training" },
       {
         property: "og:description",
-        content: "Job-focused computer courses, certified training and online admission.",
+        content:
+          "Job-focused computer courses, certified training, typing practice and online admission at Bhumiraj Computer Institute.",
+      },
+      { property: "og:url", content: "https://bhumiraj.lovable.app/" },
+    ],
+    links: [{ rel: "canonical", href: "https://bhumiraj.lovable.app/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "EducationalOrganization",
+          name: "Bhumiraj Computer Institute",
+          alternateName: "Bhumiraj Computer",
+          url: "https://bhumiraj.lovable.app/",
+          description:
+            "Job-focused computer courses, typing practice, certified training and online admission at Bhumiraj Computer Institute.",
+        }),
       },
     ],
   }),
