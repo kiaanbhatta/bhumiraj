@@ -26,7 +26,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Bhumiraj Computer Institute (Bhumiraj Computer) offers job-focused computer courses, typing practice, certified training and online admission. Learn practical computer skills with expert teachers.",
+          "Bhumiraj Computer Institute (Bhumiraj IT Jhalari) offers job-focused computer courses, typing practice, certified training and online admission. Learn practical computer skills with expert teachers.",
       },
       { property: "og:title", content: "Bhumiraj Computer Institute — Practical Computer Training" },
       {
