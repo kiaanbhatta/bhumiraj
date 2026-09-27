@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://bhumiraj.lovable.app/sitemap.xml
+Sitemap: https://bhumirajcomputer.com.np/sitemap.xml
