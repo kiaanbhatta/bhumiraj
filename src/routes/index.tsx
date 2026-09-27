@@ -26,7 +26,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Bhumiraj Computer Institute (Bhumiraj Computer) offers job-focused computer courses, typing practice, certified training and online admission. Learn practical computer skills with expert teachers.",
+          "Bhumiraj Computer Institute (Bhumiraj IT Jhalari) offers job-focused computer courses, typing practice, certified training and online admission. Learn practical computer skills with expert teachers.",
       },
       { property: "og:title", content: "Bhumiraj Computer Institute — Practical Computer Training" },
       {
@@ -44,7 +44,7 @@ export const Route = createFileRoute("/")({
           "@context": "https://schema.org",
           "@type": "EducationalOrganization",
           name: "Bhumiraj Computer Institute",
-          alternateName: "Bhumiraj Computer",
+          alternateName: ["Bhumiraj Computer", "Bhumiraj IT Jhalari"],
           url: "https://bhumiraj.lovable.app/",
           description:
             "Job-focused computer courses, typing practice, certified training and online admission at Bhumiraj Computer Institute.",
